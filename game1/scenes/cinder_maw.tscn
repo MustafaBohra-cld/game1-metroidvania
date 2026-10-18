@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scripts/modules/combat/health.gd" id="2_health"]
 [ext_resource type="Script" path="res://scripts/modules/combat/hurtbox.gd" id="3_hurtbox"]
 [ext_resource type="Script" path="res://scripts/modules/combat/hitbox.gd" id="4_hitbox"]
-[ext_resource type="Texture2D" path="res://assets/sprites/enemies/maw-emerge1.png" id="9_sprite"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/cinder-maw.png" id="9_sprite"]
 
 [sub_resource type="RectangleShape2D" id="body_rect"]
 size = Vector2(120, 70)
