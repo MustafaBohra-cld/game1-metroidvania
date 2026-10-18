@@ -1,0 +1,60 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/rust_warden.gd" id="1_enemy"]
+[ext_resource type="Script" path="res://scripts/modules/combat/health.gd" id="2_health"]
+[ext_resource type="Script" path="res://scripts/modules/combat/hurtbox.gd" id="3_hurtbox"]
+[ext_resource type="Script" path="res://scripts/modules/combat/hitbox.gd" id="4_hitbox"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/warden-idle.png" id="9_idle"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/warden-slam.png" id="10_slam"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/warden-vuln.png" id="11_vuln"]
+
+[sub_resource type="RectangleShape2D" id="hurt_rect"]
+size = Vector2(64, 96)
+
+[sub_resource type="RectangleShape2D" id="contact_rect"]
+size = Vector2(68, 100)
+
+[sub_resource type="RectangleShape2D" id="slam_rect"]
+size = Vector2(120, 60)
+
+[sub_resource type="RectangleShape2D" id="body_rect"]
+size = Vector2(56, 96)
+
+[node name="RustWarden" type="CharacterBody2D"]
+script = ExtResource("1_enemy")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -48)
+shape = SubResource("body_rect")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite2D" parent="Visual"]
+texture = ExtResource("9_idle")
+scale = Vector2(0.45, 0.45)
+position = Vector2(0, -48)
+texture_filter = 1
+
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("2_health")
+max_health = 12
+
+[node name="Hurtbox" type="Area2D" parent="."]
+script = ExtResource("3_hurtbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("hurt_rect")
+
+[node name="ContactHitbox" type="Area2D" parent="."]
+script = ExtResource("4_hitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactHitbox"]
+shape = SubResource("contact_rect")
+
+[node name="SlamHitbox" type="Area2D" parent="."]
+position = Vector2(0, 40)
+script = ExtResource("4_hitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SlamHitbox"]
+shape = SubResource("slam_rect")

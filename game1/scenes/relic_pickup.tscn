@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/relic_pickup.gd" id="1_pickup"]
+
+[sub_resource type="RectangleShape2D" id="diamond_shape"]
+size = Vector2(48, 48)
+
+[node name="RelicPickup" type="Area2D"]
+script = ExtResource("1_pickup")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("diamond_shape")
+
+[node name="Diamond" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-16, 0, 0, -22, 16, 0, 0, 22)
+color = Color(1, 0.48, 0.18, 1)

@@ -1,0 +1,23 @@
+# Godot editor cache (regenerated on import)
+/.godot/
+
+# Android build working dir (generated during Gradle export)
+/android/
+
+# Build outputs
+/builds/
+*.apk
+*.aab
+*.idsig
+
+# Signing keys — NEVER commit these
+*.keystore
+*.jks
+
+# Export credentials / local secrets
+export_credentials.cfg
+local_settings.cfg
+
+# OS noise
+.DS_Store
+Thumbs.db

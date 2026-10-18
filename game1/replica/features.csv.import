@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://ck636pie5kw0v"
+
+[deps]
+
+files=["res://replica/features.area.translation", "res://replica/features.priority.translation", "res://replica/features.original.translation", "res://replica/features.clone.translation", "res://replica/features.notes.translation"]
+
+source_file="res://replica/features.csv"
+dest_files=["res://replica/features.area.translation", "res://replica/features.priority.translation", "res://replica/features.original.translation", "res://replica/features.clone.translation", "res://replica/features.notes.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

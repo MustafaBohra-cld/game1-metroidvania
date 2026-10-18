@@ -1,0 +1,499 @@
+[gd_scene load_steps=18 format=3]
+
+[ext_resource type="Script" path="res://scripts/rooms/room.gd" id="1_room"]
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/touch_controls.tscn" id="3_touch"]
+[ext_resource type="PackedScene" path="res://scenes/hud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/rest_panel.tscn" id="5_rest"]
+[ext_resource type="PackedScene" path="res://scenes/pause_panel.tscn" id="6_pause"]
+[ext_resource type="Script" path="res://scripts/world/door.gd" id="7_door"]
+[ext_resource type="Script" path="res://scripts/world/dash_shrine.gd" id="8_shrine"]
+
+[sub_resource type="RectangleShape2D" id="ground"]
+size = Vector2(1280, 120)
+
+[sub_resource type="RectangleShape2D" id="ground2"]
+size = Vector2(500, 120)
+
+[sub_resource type="RectangleShape2D" id="wall"]
+size = Vector2(40, 720)
+
+[sub_resource type="RectangleShape2D" id="door_rect"]
+size = Vector2(100, 160)
+
+[sub_resource type="RectangleShape2D" id="shrine_rect"]
+size = Vector2(140, 160)
+
+
+[sub_resource type="Gradient" id="vig_grad"]
+offsets = PackedFloat32Array(0.5, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.02, 0.01, 0.008, 0.6)
+
+[sub_resource type="GradientTexture2D" id="vig_tex"]
+gradient = SubResource("vig_grad")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="emb_grad"]
+offsets = PackedFloat32Array(0, 0.7, 1)
+colors = PackedColorArray(1, 0.55, 0.22, 0.9, 1, 0.38, 0.12, 0.55, 0.9, 0.2, 0.06, 0)
+
+[sub_resource type="GradientTexture1D" id="emb_ramp"]
+gradient = SubResource("emb_grad")
+
+[node name="Room" type="Node2D"]
+script = ExtResource("1_room")
+cam_bounds = Rect2(0, 0, 1280, 720)
+
+[node name="Terrain" type="StaticBody2D" parent="."]
+
+[node name="GroundL" type="CollisionShape2D" parent="Terrain"]
+position = Vector2(250, 660)
+shape = SubResource("ground2")
+
+[node name="GroundR" type="CollisionShape2D" parent="Terrain"]
+position = Vector2(1030, 660)
+shape = SubResource("ground2")
+
+[node name="WallL" type="CollisionShape2D" parent="Terrain"]
+position = Vector2(20, 360)
+shape = SubResource("wall")
+
+[node name="WallR" type="CollisionShape2D" parent="Terrain"]
+position = Vector2(1260, 360)
+shape = SubResource("wall")
+
+[node name="TerrainVisual" type="Node2D" parent="."]
+
+[node name="BG_Base" type="ColorRect" parent="TerrainVisual"]
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 1380.0
+offset_bottom = 820.0
+color = Color(0.035, 0.022, 0.018, 1)
+
+[node name="BG_Rock_1" type="ColorRect" parent="TerrainVisual"]
+offset_left = 282.4
+offset_top = 432.6
+offset_right = 783.7
+offset_bottom = 678.8
+color = Color(0.06, 0.04, 0.03, 1)
+
+[node name="BG_Rock_2" type="ColorRect" parent="TerrainVisual"]
+offset_left = 61.4
+offset_top = -25.4
+offset_right = 523.7
+offset_bottom = 221.4
+color = Color(0.06, 0.04, 0.03, 1)
+
+[node name="BG_Rock_3" type="ColorRect" parent="TerrainVisual"]
+offset_left = 991.3
+offset_top = -29.7
+offset_right = 1194.1
+offset_bottom = 120.2
+color = Color(0.06, 0.04, 0.03, 1)
+
+[node name="BG_Rock_4" type="ColorRect" parent="TerrainVisual"]
+offset_left = 438.2
+offset_top = 391.6
+offset_right = 911.3
+offset_bottom = 532.5
+color = Color(0.06, 0.04, 0.03, 1)
+
+[node name="BG_Rock_5" type="ColorRect" parent="TerrainVisual"]
+offset_left = 353.4
+offset_top = 471.3
+offset_right = 600.1
+offset_bottom = 835.6
+color = Color(0.06, 0.04, 0.03, 1)
+
+[node name="BG_FarGlow_6" type="ColorRect" parent="TerrainVisual"]
+offset_left = 620.0
+offset_top = 217.7
+offset_right = 909.8
+offset_bottom = 368.2
+color = Color(0.5, 0.18, 0.06, 0.08)
+
+[node name="BG_FarGlow_7" type="ColorRect" parent="TerrainVisual"]
+offset_left = 672.0
+offset_top = 326.7
+offset_right = 1055.3
+offset_bottom = 448.6
+color = Color(0.5, 0.18, 0.06, 0.08)
+
+[node name="BG_FarGlow_8" type="ColorRect" parent="TerrainVisual"]
+offset_left = 439.4
+offset_top = 439.5
+offset_right = 853.4
+offset_bottom = 620.5
+color = Color(0.5, 0.18, 0.06, 0.08)
+
+[node name="Ground_9" type="ColorRect" parent="TerrainVisual"]
+offset_left = 0.0
+offset_top = 600.0
+offset_right = 500.0
+offset_bottom = 720.0
+color = Color(0.1, 0.065, 0.05, 1)
+
+[node name="Ground_Rim_10" type="ColorRect" parent="TerrainVisual"]
+offset_left = 0.0
+offset_top = 600.0
+offset_right = 500.0
+offset_bottom = 608.0
+color = Color(0.38, 0.22, 0.12, 1)
+
+[node name="Ground_CrackGlow_11" type="ColorRect" parent="TerrainVisual"]
+offset_left = 188.0
+offset_top = 593.0
+offset_right = 263.0
+offset_bottom = 615.0
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Ground_Crack_12" type="ColorRect" parent="TerrainVisual"]
+offset_left = 195.0
+offset_top = 602.0
+offset_right = 256.0
+offset_bottom = 608.0
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Ground_CrackGlow_13" type="ColorRect" parent="TerrainVisual"]
+offset_left = 59.9
+offset_top = 593.0
+offset_right = 150.1
+offset_bottom = 615.0
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Ground_Crack_14" type="ColorRect" parent="TerrainVisual"]
+offset_left = 66.9
+offset_top = 602.0
+offset_right = 143.1
+offset_bottom = 608.0
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Ground_15" type="ColorRect" parent="TerrainVisual"]
+offset_left = 780.0
+offset_top = 600.0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.1, 0.065, 0.05, 1)
+
+[node name="Ground_Rim_16" type="ColorRect" parent="TerrainVisual"]
+offset_left = 780.0
+offset_top = 600.0
+offset_right = 1280.0
+offset_bottom = 608.0
+color = Color(0.38, 0.22, 0.12, 1)
+
+[node name="Ground_CrackGlow_17" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1107.1
+offset_top = 593.0
+offset_right = 1216.6
+offset_bottom = 615.0
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Ground_Crack_18" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1114.1
+offset_top = 602.0
+offset_right = 1209.6
+offset_bottom = 608.0
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Ground_CrackGlow_19" type="ColorRect" parent="TerrainVisual"]
+offset_left = 888.7
+offset_top = 593.0
+offset_right = 998.6
+offset_bottom = 615.0
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Ground_Crack_20" type="ColorRect" parent="TerrainVisual"]
+offset_left = 895.7
+offset_top = 602.0
+offset_right = 991.6
+offset_bottom = 608.0
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Wall_21" type="ColorRect" parent="TerrainVisual"]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 40.0
+offset_bottom = 720.0
+color = Color(0.11, 0.075, 0.055, 1)
+
+[node name="Wall_Edge_22" type="ColorRect" parent="TerrainVisual"]
+offset_left = 35.0
+offset_top = 0.0
+offset_right = 40.0
+offset_bottom = 720.0
+color = Color(0.3, 0.18, 0.1, 1)
+
+[node name="Vein_Glow_23" type="ColorRect" parent="TerrainVisual"]
+offset_left = 18.0
+offset_top = 515.2
+offset_right = 41.0
+offset_bottom = 606.8
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Vein_24" type="ColorRect" parent="TerrainVisual"]
+offset_left = 26.0
+offset_top = 523.2
+offset_right = 33.0
+offset_bottom = 598.8
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Vein_Glow_25" type="ColorRect" parent="TerrainVisual"]
+offset_left = 18.0
+offset_top = 77.0
+offset_right = 39.8
+offset_bottom = 189.7
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Vein_26" type="ColorRect" parent="TerrainVisual"]
+offset_left = 26.0
+offset_top = 85.0
+offset_right = 31.8
+offset_bottom = 181.7
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Vein_Glow_27" type="ColorRect" parent="TerrainVisual"]
+offset_left = 18.0
+offset_top = 159.7
+offset_right = 40.1
+offset_bottom = 274.9
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Vein_28" type="ColorRect" parent="TerrainVisual"]
+offset_left = 26.0
+offset_top = 167.7
+offset_right = 32.1
+offset_bottom = 266.9
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Wall_29" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1240.0
+offset_top = 0.0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.11, 0.075, 0.055, 1)
+
+[node name="Wall_Edge_30" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1240.0
+offset_top = 0.0
+offset_right = 1245.0
+offset_bottom = 720.0
+color = Color(0.3, 0.18, 0.1, 1)
+
+[node name="Vein_Glow_31" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1240.0
+offset_top = 153.7
+offset_right = 1261.5
+offset_bottom = 343.0
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Vein_32" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1248.0
+offset_top = 161.7
+offset_right = 1253.5
+offset_bottom = 335.0
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Vein_Glow_33" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1240.0
+offset_top = 19.8
+offset_right = 1261.9
+offset_bottom = 96.0
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Vein_34" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1248.0
+offset_top = 27.8
+offset_right = 1253.9
+offset_bottom = 88.0
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Vein_Glow_35" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1240.0
+offset_top = 192.8
+offset_right = 1264.2
+offset_bottom = 382.9
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Vein_36" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1248.0
+offset_top = 200.8
+offset_right = 1256.2
+offset_bottom = 374.9
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Hotspot_Glow_37" type="ColorRect" parent="TerrainVisual"]
+offset_left = 471.4
+offset_top = 515.1
+offset_right = 501.9
+offset_bottom = 545.6
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Hotspot_38" type="ColorRect" parent="TerrainVisual"]
+offset_left = 482.8
+offset_top = 526.6
+offset_right = 490.5
+offset_bottom = 534.2
+color = Color(1, 0.6, 0.25, 0.9)
+
+[node name="Hotspot_Glow_39" type="ColorRect" parent="TerrainVisual"]
+offset_left = 410.3
+offset_top = 109.4
+offset_right = 452.4
+offset_bottom = 151.6
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Hotspot_40" type="ColorRect" parent="TerrainVisual"]
+offset_left = 426.1
+offset_top = 125.3
+offset_right = 436.6
+offset_bottom = 135.8
+color = Color(1, 0.6, 0.25, 0.9)
+
+[node name="Hotspot_Glow_41" type="ColorRect" parent="TerrainVisual"]
+offset_left = 307.7
+offset_top = 501.0
+offset_right = 353.6
+offset_bottom = 546.8
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Hotspot_42" type="ColorRect" parent="TerrainVisual"]
+offset_left = 324.9
+offset_top = 518.2
+offset_right = 336.4
+offset_bottom = 529.7
+color = Color(1, 0.6, 0.25, 0.9)
+
+[node name="Hotspot_Glow_43" type="ColorRect" parent="TerrainVisual"]
+offset_left = 591.5
+offset_top = 371.1
+offset_right = 627.6
+offset_bottom = 407.3
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Hotspot_44" type="ColorRect" parent="TerrainVisual"]
+offset_left = 605.0
+offset_top = 384.7
+offset_right = 614.1
+offset_bottom = 393.7
+color = Color(1, 0.6, 0.25, 0.9)
+
+[node name="GapV" type="ColorRect" parent="TerrainVisual"]
+offset_left = 500.0
+offset_top = 600.0
+offset_right = 780.0
+offset_bottom = 720.0
+color = Color(0.02, 0.01, 0.008, 1)
+
+[node name="EmberParticles" type="CPUParticles2D" parent="."]
+position = Vector2(640, 396)
+amount = 24
+lifetime = 5.0
+preprocess = 5.0
+emission_shape = 1
+emission_sphere_radius = 324
+direction = Vector2(0, -1)
+spread = 30.0
+gravity = Vector2(0, -12)
+initial_velocity_min = 15.0
+initial_velocity_max = 45
+scale_amount_min = 1.5
+scale_amount_max = 3.0
+color = Color(1, 0.5, 0.2, 0.8)
+color_ramp = SubResource("emb_ramp")
+hue_variation_min = -0.03
+hue_variation_max = 0.05
+local_coords = false
+
+
+[node name="GroundLV" type="ColorRect" parent="TerrainVisual"]
+offset_left = 0.0
+offset_top = 600.0
+offset_right = 500.0
+offset_bottom = 720.0
+color = Color(0.16, 0.1, 0.07, 1)
+
+[node name="GroundRV" type="ColorRect" parent="TerrainVisual"]
+offset_left = 780.0
+offset_top = 600.0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.16, 0.1, 0.07, 1)
+
+[node name="GapV" type="ColorRect" parent="TerrainVisual"]
+offset_left = 500.0
+offset_top = 600.0
+offset_right = 780.0
+offset_bottom = 720.0
+color = Color(0.05, 0.03, 0.02, 1)
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="Spawn_default" type="Marker2D" parent="Spawns"]
+position = Vector2(180, 560)
+
+[node name="Spawn_from_gallery" type="Marker2D" parent="Spawns"]
+position = Vector2(280, 560)
+
+[node name="Spawn_from_arena" type="Marker2D" parent="Spawns"]
+position = Vector2(180, 560)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(180, 560)
+
+[node name="DashShrine" type="Area2D" parent="."]
+position = Vector2(950, 520)
+script = ExtResource("8_shrine")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DashShrine"]
+shape = SubResource("shrine_rect")
+
+[node name="Visual" type="ColorRect" parent="DashShrine"]
+offset_left = -40.0
+offset_top = -60.0
+offset_right = 40.0
+offset_bottom = 60.0
+color = Color(1, 0.6, 0.2, 1)
+
+[node name="TouchControls" parent="." instance=ExtResource("3_touch")]
+[node name="HUD" parent="." instance=ExtResource("4_hud")]
+[node name="RestPanel" parent="." instance=ExtResource("5_rest")]
+[node name="PausePanel" parent="." instance=ExtResource("6_pause")]
+
+[node name="DoorBack" type="Area2D" parent="."]
+position = Vector2(100, 520)
+script = ExtResource("7_door")
+target_scene = "res://scenes/rooms/tun_arena.tscn"
+spawn_tag = "from_dash"
+toast_text = "Maw's Burrow"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorBack"]
+shape = SubResource("door_rect")
+
+[node name="DoorForward" type="Area2D" parent="."]
+position = Vector2(1150, 520)
+script = ExtResource("7_door")
+target_scene = "res://scenes/rooms/f1_entry.tscn"
+spawn_tag = "from_dash"
+toast_text = "Sunken Foundry"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorForward"]
+shape = SubResource("door_rect")
+[node name="Vignette" type="CanvasLayer" parent="."]
+layer = 90
+
+[node name="Shade" type="TextureRect" parent="Vignette"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("vig_tex")
+expand_mode = 1
+stretch_mode = 6
+

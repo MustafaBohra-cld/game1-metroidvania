@@ -1,0 +1,11 @@
+# DEBUG ROOM SELECT
+# Put a room filename here (without .tscn) to start the game directly in that room.
+# Examples: tun_shaft, tun_vein, tun_cross, tun_nest, tun_gallery, tun_dash
+#            f1_entry, f2_shaft, f3_drone_nest, f4_pump, f5_pools, f6_warden
+# Leave empty (or delete this file) to start normally from the beginning.
+#
+# How to use:
+# 1. Type the room name below (e.g. tun_shaft)
+# 2. Save, redeploy to phone
+# 3. Game boots straight into that room
+# 4. Clear this when done testing to play from start

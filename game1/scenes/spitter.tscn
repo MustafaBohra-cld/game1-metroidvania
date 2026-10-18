@@ -1,0 +1,28 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/spitter.gd" id="1_enemy"]
+[ext_resource type="Script" path="res://scripts/modules/combat/health.gd" id="2_health"]
+[ext_resource type="Script" path="res://scripts/modules/combat/hurtbox.gd" id="3_hurtbox"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/spitter.png" id="5_sprite"]
+
+[sub_resource type="RectangleShape2D" id="hurt_rect"]
+size = Vector2(40, 48)
+
+[node name="Spitter" type="CharacterBody2D"]
+script = ExtResource("1_enemy")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite2D" parent="Visual"]
+texture = ExtResource("5_sprite")
+scale = Vector2(0.07, 0.07)
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("2_health")
+max_health = 2
+
+[node name="Hurtbox" type="Area2D" parent="."]
+script = ExtResource("3_hurtbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("hurt_rect")

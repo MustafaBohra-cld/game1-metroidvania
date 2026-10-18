@@ -1,0 +1,46 @@
+feature,area,priority,original,clone,notes
+Run + variable-height jump,movement,must,yes,no,touch joystick; widen timing ~15% vs PC
+Dash (unlockable),movement,must,yes,no,gates late zones; i-frames on touch-tuned timing
+Wall cling/slide (unlockable),movement,must,yes,no,
+Double jump (unlockable),movement,must,yes,no,
+4-directional melee slash,combat,must,yes,no,virtual buttons; aim assist on touch
+Downward pogo bounce,combat,must,yes,no,core skill move; keep
+Combat resource from landing hits,combat,must,yes,no,
+Spend resource to heal (vulnerable channel),combat,must,yes,no,
+Spend resource on spells (projectile/dive),combat,must,yes,no,unlockable abilities
+Pip health + shard upgrades (4 shards = +1 pip),combat,must,yes,no,
+Enemy hit reactions + i-frames,combat,must,yes,no,
+Relic loadout with socket costs,progression,must,yes,no,rename from reference; original names
+Change loadout only at rest points,progression,must,yes,no,
+Rest points: save + full heal + enemy respawn,world,must,yes,no,
+Death: drop currency; defeat echo to recover; second death loses it,world,must,yes,no,
+Interconnected zones with ability-gated paths,world,must,yes,no,4 zones + hub for game 1 (scope cap)
+Per-zone purchasable map that fills as explored,world,must,yes,no,
+Compass relic showing player position,world,must,yes,no,
+Boss gates on critical path with ability/currency rewards,bosses,must,yes,no,4-5 bosses game 1
+Multi-phase boss AI,bosses,must,yes,no,
+Currency drops + vendors (relics/sockets/keys),economy,must,yes,no,
+Fast-travel station network,world,must,yes,no,unlock progressively
+Pause menu (loadout/map/settings/quit),ui,must,yes,no,
+Versioned save slots + suspend/resume,system,must,yes,no,corruption-safe; mobile suspend restores mid-room
+Touch settings (joystick type/button size),ui,must,yes,no,
+Sub-bosses with reward drops,bosses,should,yes,no,
+NPC quests (fetch/defeat),world,should,yes,no,2-3 simple chains game 1
+Hot-spring heal spots,world,should,yes,no,
+Lore tablets / readable objects,world,should,yes,no,original writing only
+Map marker pins (purchasable),world,should,yes,no,
+Arena wave-trial with rewards,world,should,yes,no,good rewarded-ad placement later
+Relic synergy effects,progression,should,yes,no,equip combos grant bonuses
+Bestiary/journal,ui,should,yes,no,
+Damage numbers toggle,ui,should,yes,no,
+Boss-rush mode,bosses,could,yes,no,post-launch candidate
+New Game+,progression,could,yes,no,post-launch candidate
+Achievements,system,could,yes,no,Play Games Services later
+Cloud save,system,could,yes,no,post-launch
+Daily challenge room,world,could,yes,no,post-launch retention
+Photo mode,ui,could,yes,no,cut if time-pressed
+Reference art/animation/music/story/characters/dialogue/names,ip,skip,yes,skip,never copied; Brand step creates originals
+Online multiplayer,system,skip,no,skip,not part of reference loop
+PC/console store ports,platform,skip,no,skip,mobile-first; desktop export debug only
+Licensed music or middleware,ip,skip,no,skip,all-original or CC0 assets only
+Pay-to-win IAP (power sold directly),monetization,skip,no,skip,cosmetics/convenience/DLC only per plan

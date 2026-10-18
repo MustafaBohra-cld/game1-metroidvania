@@ -1,0 +1,428 @@
+[gd_scene load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://scripts/rooms/room.gd" id="1_room"]
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/touch_controls.tscn" id="3_touch"]
+[ext_resource type="PackedScene" path="res://scenes/hud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/rest_panel.tscn" id="5_rest"]
+[ext_resource type="PackedScene" path="res://scenes/pause_panel.tscn" id="6_pause"]
+[ext_resource type="PackedScene" path="res://scenes/silt_lurker.tscn" id="7_lurker"]
+[ext_resource type="Script" path="res://scripts/world/door.gd" id="8_door"]
+
+[sub_resource type="RectangleShape2D" id="ground"]
+size = Vector2(2000, 120)
+
+[sub_resource type="RectangleShape2D" id="wall"]
+size = Vector2(40, 720)
+
+[sub_resource type="RectangleShape2D" id="door_rect"]
+size = Vector2(100, 160)
+
+
+[sub_resource type="Gradient" id="sf_vig_grad"]
+offsets = PackedFloat32Array(0.5, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.01, 0.02, 0.025, 0.62)
+
+[sub_resource type="GradientTexture2D" id="sf_vig_tex"]
+gradient = SubResource("sf_vig_grad")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="sf_steam_grad"]
+offsets = PackedFloat32Array(0, 0.6, 1)
+colors = PackedColorArray(0.65, 0.95, 1, 0.75, 0.5, 0.85, 0.95, 0.4, 0.4, 0.75, 0.85, 0)
+
+[sub_resource type="GradientTexture1D" id="sf_steam_ramp"]
+gradient = SubResource("sf_steam_grad")
+width = 64
+
+[node name="Room" type="Node2D"]
+script = ExtResource("1_room")
+cam_bounds = Rect2(0, 0, 2000, 720)
+
+[node name="Terrain" type="StaticBody2D" parent="."]
+
+[node name="Ground" type="CollisionShape2D" parent="Terrain"]
+position = Vector2(1000, 660)
+shape = SubResource("ground")
+
+[node name="WallL" type="CollisionShape2D" parent="Terrain"]
+position = Vector2(20, 360)
+shape = SubResource("wall")
+
+[node name="WallR" type="CollisionShape2D" parent="Terrain"]
+position = Vector2(1980, 360)
+shape = SubResource("wall")
+
+[node name="TerrainVisual" type="Node2D" parent="."]
+
+[node name="BG_Base" type="ColorRect" parent="TerrainVisual"]
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 2100.0
+offset_bottom = 820.0
+color = Color(0.03, 0.06, 0.08, 1)
+
+[node name="BG_Pipe_1" type="ColorRect" parent="TerrainVisual"]
+offset_left = 755.6
+offset_top = 38.5
+offset_right = 1864.0
+offset_bottom = 85.2
+color = Color(0.07, 0.11, 0.13, 1)
+
+[node name="BG_PipeHl_1" type="ColorRect" parent="TerrainVisual"]
+offset_left = 755.6
+offset_top = 38.5
+offset_right = 1864.0
+offset_bottom = 43.5
+color = Color(0.075, 0.12, 0.14, 1)
+
+[node name="BG_Pipe_2" type="ColorRect" parent="TerrainVisual"]
+offset_left = 572.4
+offset_top = 128.1
+offset_right = 2581.9
+offset_bottom = 164.0
+color = Color(0.07, 0.11, 0.13, 1)
+
+[node name="BG_PipeHl_2" type="ColorRect" parent="TerrainVisual"]
+offset_left = 572.4
+offset_top = 128.1
+offset_right = 2581.9
+offset_bottom = 133.1
+color = Color(0.075, 0.12, 0.14, 1)
+
+[node name="BG_Pipe_3" type="ColorRect" parent="TerrainVisual"]
+offset_left = 769.1
+offset_top = 341.0
+offset_right = 2635.3
+offset_bottom = 382.1
+color = Color(0.07, 0.11, 0.13, 1)
+
+[node name="BG_PipeHl_3" type="ColorRect" parent="TerrainVisual"]
+offset_left = 769.1
+offset_top = 341.0
+offset_right = 2635.3
+offset_bottom = 346.0
+color = Color(0.075, 0.12, 0.14, 1)
+
+[node name="BG_Pipe_4" type="ColorRect" parent="TerrainVisual"]
+offset_left = 265.2
+offset_top = 374.3
+offset_right = 1730.6
+offset_bottom = 412.3
+color = Color(0.07, 0.11, 0.13, 1)
+
+[node name="BG_PipeHl_4" type="ColorRect" parent="TerrainVisual"]
+offset_left = 265.2
+offset_top = 374.3
+offset_right = 1730.6
+offset_bottom = 379.3
+color = Color(0.075, 0.12, 0.14, 1)
+
+[node name="BG_Mass_1" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1192.4
+offset_top = -17.7
+offset_right = 1439.2
+offset_bottom = 228.5
+color = Color(0.055, 0.095, 0.115, 1)
+
+[node name="BG_Mass_2" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1069.3
+offset_top = 415.8
+offset_right = 1255.4
+offset_bottom = 677.0
+color = Color(0.075, 0.12, 0.14, 1)
+
+[node name="BG_Mass_3" type="ColorRect" parent="TerrainVisual"]
+offset_left = 933.9
+offset_top = 366.4
+offset_right = 1084.4
+offset_bottom = 532.7
+color = Color(0.055, 0.095, 0.115, 1)
+
+[node name="BG_Mass_4" type="ColorRect" parent="TerrainVisual"]
+offset_left = 752.6
+offset_top = 126.3
+offset_right = 931.6
+offset_bottom = 399.2
+color = Color(0.075, 0.12, 0.14, 1)
+
+[node name="BG_Mass_5" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1788.9
+offset_top = 128.9
+offset_right = 2094.8
+offset_bottom = 270.4
+color = Color(0.055, 0.095, 0.115, 1)
+
+[node name="BG_FarGlow_1" type="ColorRect" parent="TerrainVisual"]
+offset_left = 833.0
+offset_top = 452.9
+offset_right = 1125.5
+offset_bottom = 641.3
+color = Color(0.16, 0.55, 0.60, 0.16)
+
+[node name="BG_FarGlow_2" type="ColorRect" parent="TerrainVisual"]
+offset_left = 783.6
+offset_top = 277.8
+offset_right = 1047.8
+offset_bottom = 515.3
+color = Color(0.20, 0.65, 0.70, 0.10)
+
+[node name="BG_FarGlow_3" type="ColorRect" parent="TerrainVisual"]
+offset_left = 738.9
+offset_top = 332.2
+offset_right = 984.9
+offset_bottom = 589.9
+color = Color(0.16, 0.55, 0.60, 0.16)
+
+[node name="GroundV" type="ColorRect" parent="TerrainVisual"]
+offset_left = 0.0
+offset_top = 600.0
+offset_right = 2000.0
+offset_bottom = 720.0
+color = Color(0.085, 0.115, 0.145, 1)
+
+[node name="GroundV_Rim" type="ColorRect" parent="TerrainVisual"]
+offset_left = 0.0
+offset_top = 600.0
+offset_right = 2000.0
+offset_bottom = 607.0
+color = Color(0.35, 0.80, 0.85, 1)
+
+[node name="GroundV_Rust" type="ColorRect" parent="TerrainVisual"]
+offset_left = 0.0
+offset_top = 607.0
+offset_right = 2000.0
+offset_bottom = 616.0
+color = Color(0.30, 0.19, 0.10, 1)
+
+[node name="GroundV_GlowHalo_1" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1007.1
+offset_top = 596.0
+offset_right = 1135.3
+offset_bottom = 612.0
+color = Color(0.25, 0.75, 0.80, 0.22)
+
+[node name="GroundV_Glow_1" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1015.1
+offset_top = 601.0
+offset_right = 1127.3
+offset_bottom = 607.0
+color = Color(0.25, 0.85, 0.90, 0.80)
+
+[node name="GroundV_GlowHalo_2" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1781.4
+offset_top = 596.0
+offset_right = 1937.8
+offset_bottom = 612.0
+color = Color(0.25, 0.75, 0.80, 0.22)
+
+[node name="GroundV_Glow_2" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1789.4
+offset_top = 601.0
+offset_right = 1929.8
+offset_bottom = 607.0
+color = Color(0.25, 0.85, 0.90, 0.80)
+
+[node name="GroundV_GlowHalo_3" type="ColorRect" parent="TerrainVisual"]
+offset_left = 777.5
+offset_top = 596.0
+offset_right = 923.3
+offset_bottom = 612.0
+color = Color(0.25, 0.75, 0.80, 0.22)
+
+[node name="GroundV_Glow_3" type="ColorRect" parent="TerrainVisual"]
+offset_left = 785.5
+offset_top = 601.0
+offset_right = 915.3
+offset_bottom = 607.0
+color = Color(0.25, 0.85, 0.90, 0.80)
+
+[node name="WallLV" type="ColorRect" parent="TerrainVisual"]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 40.0
+offset_bottom = 720.0
+color = Color(0.125, 0.165, 0.195, 1)
+
+[node name="WallLV_Edge" type="ColorRect" parent="TerrainVisual"]
+offset_left = 35.0
+offset_top = 0.0
+offset_right = 40.0
+offset_bottom = 720.0
+color = Color(0.35, 0.80, 0.85, 1)
+
+[node name="WallLV_Rust" type="ColorRect" parent="TerrainVisual"]
+offset_left = 0.0
+offset_top = 694.0
+offset_right = 40.0
+offset_bottom = 702.0
+color = Color(0.40, 0.25, 0.13, 1)
+
+[node name="WallRV" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1960.0
+offset_top = 0.0
+offset_right = 2000.0
+offset_bottom = 720.0
+color = Color(0.125, 0.165, 0.195, 1)
+
+[node name="WallRV_Edge" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1960.0
+offset_top = 0.0
+offset_right = 1965.0
+offset_bottom = 720.0
+color = Color(0.35, 0.80, 0.85, 1)
+
+[node name="WallRV_Rust" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1960.0
+offset_top = 694.0
+offset_right = 2000.0
+offset_bottom = 702.0
+color = Color(0.40, 0.25, 0.13, 1)
+
+[node name="Silt1_Halo" type="ColorRect" parent="TerrainVisual"]
+offset_left = 486.0
+offset_top = 564.0
+offset_right = 714.0
+offset_bottom = 606.0
+color = Color(0.25, 0.75, 0.80, 0.22)
+
+[node name="Silt1" type="ColorRect" parent="TerrainVisual"]
+offset_left = 500.0
+offset_top = 590.0
+offset_right = 700.0
+offset_bottom = 600.0
+color = Color(0.13, 0.50, 0.60, 0.88)
+
+[node name="Silt1_Top" type="ColorRect" parent="TerrainVisual"]
+offset_left = 500.0
+offset_top = 590.0
+offset_right = 700.0
+offset_bottom = 594.0
+color = Color(0.35, 0.90, 0.95, 0.90)
+
+[node name="Silt2_Halo" type="ColorRect" parent="TerrainVisual"]
+offset_left = 986.0
+offset_top = 564.0
+offset_right = 1214.0
+offset_bottom = 606.0
+color = Color(0.25, 0.75, 0.80, 0.22)
+
+[node name="Silt2" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1000.0
+offset_top = 590.0
+offset_right = 1200.0
+offset_bottom = 600.0
+color = Color(0.13, 0.50, 0.60, 0.88)
+
+[node name="Silt2_Top" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1000.0
+offset_top = 590.0
+offset_right = 1200.0
+offset_bottom = 594.0
+color = Color(0.35, 0.90, 0.95, 0.90)
+
+[node name="Silt3_Halo" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1436.0
+offset_top = 564.0
+offset_right = 1664.0
+offset_bottom = 606.0
+color = Color(0.25, 0.75, 0.80, 0.22)
+
+[node name="Silt3" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1450.0
+offset_top = 590.0
+offset_right = 1650.0
+offset_bottom = 600.0
+color = Color(0.13, 0.50, 0.60, 0.88)
+
+[node name="Silt3_Top" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1450.0
+offset_top = 590.0
+offset_right = 1650.0
+offset_bottom = 594.0
+color = Color(0.35, 0.90, 0.95, 0.90)
+
+[node name="SteamParticles" type="CPUParticles2D" parent="."]
+position = Vector2(1000, 360)
+amount = 20
+lifetime = 4.0
+preprocess = 4.0
+emission_shape = 1
+emission_sphere_radius = 640
+direction = Vector2(0, -1)
+spread = 25.0
+gravity = Vector2(0, -10)
+initial_velocity_min = 18.0
+initial_velocity_max = 48
+scale_amount_min = 2.0
+scale_amount_max = 4.5
+color = Color(0.65, 0.95, 1, 0.7)
+color_ramp = SubResource("sf_steam_ramp")
+hue_variation_min = -0.04
+hue_variation_max = 0.04
+local_coords = false
+
+[node name="Vignette" type="CanvasLayer" parent="."]
+layer = 90
+[node name="Shade" type="TextureRect" parent="Vignette"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("sf_vig_tex")
+expand_mode = 1
+stretch_mode = 6
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="Spawn_default" type="Marker2D" parent="Spawns"]
+position = Vector2(180, 560)
+
+[node name="Spawn_from_f4" type="Marker2D" parent="Spawns"]
+position = Vector2(180, 560)
+
+[node name="Spawn_from_f6" type="Marker2D" parent="Spawns"]
+position = Vector2(1820, 560)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(180, 560)
+
+[node name="Lurker1" parent="." instance=ExtResource("7_lurker")]
+position = Vector2(600, 580)
+
+[node name="Lurker2" parent="." instance=ExtResource("7_lurker")]
+position = Vector2(1100, 580)
+
+[node name="Lurker3" parent="." instance=ExtResource("7_lurker")]
+position = Vector2(1550, 580)
+
+[node name="TouchControls" parent="." instance=ExtResource("3_touch")]
+[node name="HUD" parent="." instance=ExtResource("4_hud")]
+[node name="RestPanel" parent="." instance=ExtResource("5_rest")]
+[node name="PausePanel" parent="." instance=ExtResource("6_pause")]
+
+[node name="DoorBack" type="Area2D" parent="."]
+position = Vector2(100, 520)
+script = ExtResource("8_door")
+target_scene = "res://scenes/rooms/f4_pump.tscn"
+spawn_tag = "from_f5"
+toast_text = "Pump Room"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorBack"]
+shape = SubResource("door_rect")
+
+
+[node name="DoorFwd" type="Area2D" parent="."]
+position = Vector2(1900, 520)
+script = ExtResource("8_door")
+target_scene = "res://scenes/rooms/f6_warden.tscn"
+spawn_tag = "from_f5"
+toast_text = "Warden's Post"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorFwd"]
+shape = SubResource("door_rect")
+

@@ -1,0 +1,530 @@
+[gd_scene load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://scripts/rooms/room.gd" id="1_room"]
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/touch_controls.tscn" id="3_touch"]
+[ext_resource type="PackedScene" path="res://scenes/hud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/rest_panel.tscn" id="5_rest"]
+[ext_resource type="PackedScene" path="res://scenes/pause_panel.tscn" id="6_pause"]
+[ext_resource type="PackedScene" path="res://scenes/spitter.tscn" id="7_spitter"]
+[ext_resource type="Script" path="res://scripts/world/door.gd" id="8_door"]
+
+[sub_resource type="RectangleShape2D" id="ground"]
+size = Vector2(1600, 120)
+
+[sub_resource type="RectangleShape2D" id="wall"]
+size = Vector2(40, 720)
+
+[sub_resource type="RectangleShape2D" id="plat"]
+size = Vector2(200, 30)
+
+[sub_resource type="RectangleShape2D" id="door_rect"]
+size = Vector2(100, 160)
+
+
+[sub_resource type="Gradient" id="vig_grad"]
+offsets = PackedFloat32Array(0.5, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.02, 0.01, 0.008, 0.6)
+
+[sub_resource type="GradientTexture2D" id="vig_tex"]
+gradient = SubResource("vig_grad")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="emb_grad"]
+offsets = PackedFloat32Array(0, 0.7, 1)
+colors = PackedColorArray(1, 0.55, 0.22, 0.9, 1, 0.38, 0.12, 0.55, 0.9, 0.2, 0.06, 0)
+
+[sub_resource type="GradientTexture1D" id="emb_ramp"]
+gradient = SubResource("emb_grad")
+
+[node name="Room" type="Node2D"]
+script = ExtResource("1_room")
+cam_bounds = Rect2(0, 0, 1600, 720)
+
+[node name="Terrain" type="StaticBody2D" parent="."]
+
+[node name="Ground" type="CollisionShape2D" parent="Terrain"]
+position = Vector2(800, 660)
+shape = SubResource("ground")
+
+[node name="WallL" type="CollisionShape2D" parent="Terrain"]
+position = Vector2(20, 360)
+shape = SubResource("wall")
+
+[node name="WallR" type="CollisionShape2D" parent="Terrain"]
+position = Vector2(1580, 360)
+shape = SubResource("wall")
+
+[node name="PlatA" type="CollisionShape2D" parent="Terrain"]
+position = Vector2(400, 465)
+shape = SubResource("plat")
+
+[node name="PlatB" type="CollisionShape2D" parent="Terrain"]
+position = Vector2(800, 415)
+shape = SubResource("plat")
+
+[node name="PlatC" type="CollisionShape2D" parent="Terrain"]
+position = Vector2(1200, 465)
+shape = SubResource("plat")
+
+[node name="TerrainVisual" type="Node2D" parent="."]
+
+[node name="BG_Base" type="ColorRect" parent="TerrainVisual"]
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 1700.0
+offset_bottom = 820.0
+color = Color(0.035, 0.022, 0.018, 1)
+
+[node name="BG_Rock_1" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1147.2
+offset_top = 251.0
+offset_right = 1526.7
+offset_bottom = 591.8
+color = Color(0.06, 0.04, 0.03, 1)
+
+[node name="BG_Rock_2" type="ColorRect" parent="TerrainVisual"]
+offset_left = 244.5
+offset_top = 174.9
+offset_right = 575.4
+offset_bottom = 415.7
+color = Color(0.06, 0.04, 0.03, 1)
+
+[node name="BG_Rock_3" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1140.6
+offset_top = 121.8
+offset_right = 1499.0
+offset_bottom = 460.9
+color = Color(0.06, 0.04, 0.03, 1)
+
+[node name="BG_Rock_4" type="ColorRect" parent="TerrainVisual"]
+offset_left = 27.0
+offset_top = 117.9
+offset_right = 535.5
+offset_bottom = 480.6
+color = Color(0.06, 0.04, 0.03, 1)
+
+[node name="BG_Rock_5" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1084.9
+offset_top = 330.8
+offset_right = 1577.2
+offset_bottom = 513.5
+color = Color(0.06, 0.04, 0.03, 1)
+
+[node name="BG_FarGlow_6" type="ColorRect" parent="TerrainVisual"]
+offset_left = 779.2
+offset_top = 492.8
+offset_right = 1103.4
+offset_bottom = 662.3
+color = Color(0.5, 0.18, 0.06, 0.08)
+
+[node name="BG_FarGlow_7" type="ColorRect" parent="TerrainVisual"]
+offset_left = 230.5
+offset_top = 318.3
+offset_right = 530.3
+offset_bottom = 469.6
+color = Color(0.5, 0.18, 0.06, 0.08)
+
+[node name="BG_FarGlow_8" type="ColorRect" parent="TerrainVisual"]
+offset_left = 971.6
+offset_top = 266.8
+offset_right = 1287.3
+offset_bottom = 390.5
+color = Color(0.5, 0.18, 0.06, 0.08)
+
+[node name="Ground_9" type="ColorRect" parent="TerrainVisual"]
+offset_left = 0.0
+offset_top = 600.0
+offset_right = 1600.0
+offset_bottom = 720.0
+color = Color(0.1, 0.065, 0.05, 1)
+
+[node name="Ground_Rim_10" type="ColorRect" parent="TerrainVisual"]
+offset_left = 0.0
+offset_top = 600.0
+offset_right = 1600.0
+offset_bottom = 608.0
+color = Color(0.38, 0.22, 0.12, 1)
+
+[node name="Ground_CrackGlow_11" type="ColorRect" parent="TerrainVisual"]
+offset_left = 868.8
+offset_top = 593.0
+offset_right = 981.3
+offset_bottom = 615.0
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Ground_Crack_12" type="ColorRect" parent="TerrainVisual"]
+offset_left = 875.8
+offset_top = 602.0
+offset_right = 974.3
+offset_bottom = 608.0
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Ground_CrackGlow_13" type="ColorRect" parent="TerrainVisual"]
+offset_left = 290.2
+offset_top = 593.0
+offset_right = 419.9
+offset_bottom = 615.0
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Ground_Crack_14" type="ColorRect" parent="TerrainVisual"]
+offset_left = 297.2
+offset_top = 602.0
+offset_right = 412.9
+offset_bottom = 608.0
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Ground_CrackGlow_15" type="ColorRect" parent="TerrainVisual"]
+offset_left = 640.2
+offset_top = 593.0
+offset_right = 738.5
+offset_bottom = 615.0
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Ground_Crack_16" type="ColorRect" parent="TerrainVisual"]
+offset_left = 647.2
+offset_top = 602.0
+offset_right = 731.5
+offset_bottom = 608.0
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Ground_CrackGlow_17" type="ColorRect" parent="TerrainVisual"]
+offset_left = 595.6
+offset_top = 593.0
+offset_right = 670.7
+offset_bottom = 615.0
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Ground_Crack_18" type="ColorRect" parent="TerrainVisual"]
+offset_left = 602.6
+offset_top = 602.0
+offset_right = 663.7
+offset_bottom = 608.0
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Wall_19" type="ColorRect" parent="TerrainVisual"]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 40.0
+offset_bottom = 720.0
+color = Color(0.11, 0.075, 0.055, 1)
+
+[node name="Wall_Edge_20" type="ColorRect" parent="TerrainVisual"]
+offset_left = 35.0
+offset_top = 0.0
+offset_right = 40.0
+offset_bottom = 720.0
+color = Color(0.3, 0.18, 0.1, 1)
+
+[node name="Vein_Glow_21" type="ColorRect" parent="TerrainVisual"]
+offset_left = 18.0
+offset_top = 199.8
+offset_right = 39.2
+offset_bottom = 285.4
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Vein_22" type="ColorRect" parent="TerrainVisual"]
+offset_left = 26.0
+offset_top = 207.8
+offset_right = 31.2
+offset_bottom = 277.4
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Vein_Glow_23" type="ColorRect" parent="TerrainVisual"]
+offset_left = 18.0
+offset_top = 371.9
+offset_right = 40.7
+offset_bottom = 543.6
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Vein_24" type="ColorRect" parent="TerrainVisual"]
+offset_left = 26.0
+offset_top = 379.9
+offset_right = 32.7
+offset_bottom = 535.6
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Vein_Glow_25" type="ColorRect" parent="TerrainVisual"]
+offset_left = 18.0
+offset_top = 109.2
+offset_right = 39.5
+offset_bottom = 197.2
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Vein_26" type="ColorRect" parent="TerrainVisual"]
+offset_left = 26.0
+offset_top = 117.2
+offset_right = 31.5
+offset_bottom = 189.2
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Wall_27" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1560.0
+offset_top = 0.0
+offset_right = 1600.0
+offset_bottom = 720.0
+color = Color(0.11, 0.075, 0.055, 1)
+
+[node name="Wall_Edge_28" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1560.0
+offset_top = 0.0
+offset_right = 1565.0
+offset_bottom = 720.0
+color = Color(0.3, 0.18, 0.1, 1)
+
+[node name="Vein_Glow_29" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1560.0
+offset_top = 65.2
+offset_right = 1583.8
+offset_bottom = 236.2
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Vein_30" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1568.0
+offset_top = 73.2
+offset_right = 1575.8
+offset_bottom = 228.2
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Vein_Glow_31" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1560.0
+offset_top = 548.1
+offset_right = 1583.6
+offset_bottom = 653.3
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Vein_32" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1568.0
+offset_top = 556.1
+offset_right = 1575.6
+offset_bottom = 645.3
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Vein_Glow_33" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1560.0
+offset_top = 316.7
+offset_right = 1581.6
+offset_bottom = 499.0
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Vein_34" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1568.0
+offset_top = 324.7
+offset_right = 1573.6
+offset_bottom = 491.0
+color = Color(1, 0.45, 0.18, 0.85)
+
+[node name="Plat_35" type="ColorRect" parent="TerrainVisual"]
+offset_left = 300.0
+offset_top = 450.0
+offset_right = 500.0
+offset_bottom = 480.0
+color = Color(0.14, 0.095, 0.065, 1)
+
+[node name="Plat_Rim_36" type="ColorRect" parent="TerrainVisual"]
+offset_left = 300.0
+offset_top = 450.0
+offset_right = 500.0
+offset_bottom = 455.0
+color = Color(0.42, 0.25, 0.13, 1)
+
+[node name="Plat_Underglow_37" type="ColorRect" parent="TerrainVisual"]
+offset_left = 306.0
+offset_top = 477.0
+offset_right = 494.0
+offset_bottom = 480.0
+color = Color(1, 0.42, 0.16, 0.5)
+
+[node name="Plat_38" type="ColorRect" parent="TerrainVisual"]
+offset_left = 700.0
+offset_top = 400.0
+offset_right = 900.0
+offset_bottom = 430.0
+color = Color(0.14, 0.095, 0.065, 1)
+
+[node name="Plat_Rim_39" type="ColorRect" parent="TerrainVisual"]
+offset_left = 700.0
+offset_top = 400.0
+offset_right = 900.0
+offset_bottom = 405.0
+color = Color(0.42, 0.25, 0.13, 1)
+
+[node name="Plat_Underglow_40" type="ColorRect" parent="TerrainVisual"]
+offset_left = 706.0
+offset_top = 427.0
+offset_right = 894.0
+offset_bottom = 430.0
+color = Color(1, 0.42, 0.16, 0.5)
+
+[node name="Plat_41" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1100.0
+offset_top = 450.0
+offset_right = 1300.0
+offset_bottom = 480.0
+color = Color(0.14, 0.095, 0.065, 1)
+
+[node name="Plat_Rim_42" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1100.0
+offset_top = 450.0
+offset_right = 1300.0
+offset_bottom = 455.0
+color = Color(0.42, 0.25, 0.13, 1)
+
+[node name="Plat_Underglow_43" type="ColorRect" parent="TerrainVisual"]
+offset_left = 1106.0
+offset_top = 477.0
+offset_right = 1294.0
+offset_bottom = 480.0
+color = Color(1, 0.42, 0.16, 0.5)
+
+[node name="Hotspot_Glow_44" type="ColorRect" parent="TerrainVisual"]
+offset_left = 875.6
+offset_top = 301.8
+offset_right = 921.9
+offset_bottom = 348.0
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Hotspot_45" type="ColorRect" parent="TerrainVisual"]
+offset_left = 892.9
+offset_top = 319.1
+offset_right = 904.5
+offset_bottom = 330.7
+color = Color(1, 0.6, 0.25, 0.9)
+
+[node name="Hotspot_Glow_46" type="ColorRect" parent="TerrainVisual"]
+offset_left = 959.2
+offset_top = 400.8
+offset_right = 991.3
+offset_bottom = 432.9
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Hotspot_47" type="ColorRect" parent="TerrainVisual"]
+offset_left = 971.3
+offset_top = 412.8
+offset_right = 979.3
+offset_bottom = 420.9
+color = Color(1, 0.6, 0.25, 0.9)
+
+[node name="Hotspot_Glow_48" type="ColorRect" parent="TerrainVisual"]
+offset_left = 778.0
+offset_top = 484.0
+offset_right = 810.0
+offset_bottom = 516.0
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Hotspot_49" type="ColorRect" parent="TerrainVisual"]
+offset_left = 790.0
+offset_top = 496.0
+offset_right = 798.0
+offset_bottom = 504.0
+color = Color(1, 0.6, 0.25, 0.9)
+
+[node name="Hotspot_Glow_50" type="ColorRect" parent="TerrainVisual"]
+offset_left = 120.1
+offset_top = 132.3
+offset_right = 160.9
+offset_bottom = 173.1
+color = Color(1, 0.35, 0.1, 0.15)
+
+[node name="Hotspot_51" type="ColorRect" parent="TerrainVisual"]
+offset_left = 135.4
+offset_top = 147.6
+offset_right = 145.6
+offset_bottom = 157.8
+color = Color(1, 0.6, 0.25, 0.9)
+
+[node name="EmberParticles" type="CPUParticles2D" parent="."]
+position = Vector2(800, 396)
+amount = 24
+lifetime = 5.0
+preprocess = 5.0
+emission_shape = 1
+emission_sphere_radius = 324
+direction = Vector2(0, -1)
+spread = 30.0
+gravity = Vector2(0, -12)
+initial_velocity_min = 15.0
+initial_velocity_max = 45
+scale_amount_min = 1.5
+scale_amount_max = 3.0
+color = Color(1, 0.5, 0.2, 0.8)
+color_ramp = SubResource("emb_ramp")
+hue_variation_min = -0.03
+hue_variation_max = 0.05
+local_coords = false
+
+
+[node name="GroundV" type="ColorRect" parent="TerrainVisual"]
+offset_left = 0.0
+offset_top = 600.0
+offset_right = 1600.0
+offset_bottom = 720.0
+color = Color(0.16, 0.1, 0.07, 1)
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="Spawn_default" type="Marker2D" parent="Spawns"]
+position = Vector2(180, 560)
+
+[node name="Spawn_from_shaft" type="Marker2D" parent="Spawns"]
+position = Vector2(280, 560)
+
+[node name="Spawn_from_arena" type="Marker2D" parent="Spawns"]
+position = Vector2(1450, 560)
+
+[node name="Spawn_from_dash" type="Marker2D" parent="Spawns"]
+position = Vector2(1320, 560)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(180, 560)
+
+[node name="Spitter1" parent="." instance=ExtResource("7_spitter")]
+position = Vector2(400, 420)
+
+[node name="Spitter2" parent="." instance=ExtResource("7_spitter")]
+position = Vector2(800, 370)
+
+[node name="Spitter3" parent="." instance=ExtResource("7_spitter")]
+position = Vector2(1200, 420)
+
+[node name="TouchControls" parent="." instance=ExtResource("3_touch")]
+[node name="HUD" parent="." instance=ExtResource("4_hud")]
+[node name="RestPanel" parent="." instance=ExtResource("5_rest")]
+[node name="PausePanel" parent="." instance=ExtResource("6_pause")]
+
+[node name="DoorBack" type="Area2D" parent="."]
+position = Vector2(100, 520)
+script = ExtResource("8_door")
+target_scene = "res://scenes/rooms/tun_shaft.tscn"
+spawn_tag = "from_gallery"
+toast_text = "Collapsed Shaft"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorBack"]
+shape = SubResource("door_rect")
+
+[node name="DoorFwd" type="Area2D" parent="."]
+position = Vector2(1500, 520)
+script = ExtResource("8_door")
+target_scene = "res://scenes/rooms/tun_arena.tscn"
+spawn_tag = "from_gallery"
+toast_text = "Maw's Burrow"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorFwd"]
+shape = SubResource("door_rect")
+[node name="Vignette" type="CanvasLayer" parent="."]
+layer = 90
+
+[node name="Shade" type="TextureRect" parent="Vignette"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("vig_tex")
+expand_mode = 1
+stretch_mode = 6
+

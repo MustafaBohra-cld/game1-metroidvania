@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/silt_lurker.gd" id="1_enemy"]
+[ext_resource type="Script" path="res://scripts/modules/combat/health.gd" id="2_health"]
+[ext_resource type="Script" path="res://scripts/modules/combat/hurtbox.gd" id="3_hurtbox"]
+[ext_resource type="Script" path="res://scripts/modules/combat/hitbox.gd" id="4_hitbox"]
+
+[sub_resource type="RectangleShape2D" id="hurt_rect"]
+size = Vector2(48, 32)
+
+[sub_resource type="RectangleShape2D" id="contact_rect"]
+size = Vector2(52, 36)
+
+[sub_resource type="RectangleShape2D" id="snap_rect"]
+size = Vector2(60, 80)
+
+[node name="SiltLurker" type="CharacterBody2D"]
+script = ExtResource("1_enemy")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Body" type="ColorRect" parent="Visual"]
+offset_left = -22.0
+offset_top = -12.0
+offset_right = 22.0
+offset_bottom = 12.0
+color = Color(0.25, 0.3, 0.35, 1)
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("2_health")
+max_health = 4
+
+[node name="Hurtbox" type="Area2D" parent="."]
+script = ExtResource("3_hurtbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("hurt_rect")
+
+[node name="ContactHitbox" type="Area2D" parent="."]
+script = ExtResource("4_hitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactHitbox"]
+shape = SubResource("contact_rect")
+
+[node name="SnapHitbox" type="Area2D" parent="."]
+position = Vector2(0, -50)
+script = ExtResource("4_hitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SnapHitbox"]
+shape = SubResource("snap_rect")
