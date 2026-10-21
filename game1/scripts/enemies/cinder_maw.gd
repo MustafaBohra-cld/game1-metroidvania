@@ -223,6 +223,14 @@ func _on_damaged(_amount: int) -> void:
 		_change_state(S.HIT)
 
 
+func get_health() -> int:
+	return _health.health if _health else 0
+
+
+func get_max_health() -> int:
+	return _health.max_health if _health else MAX_HP
+
+
 func _die() -> void:
 	boss_active = false
 	velocity.x = 0.0

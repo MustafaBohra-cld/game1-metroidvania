@@ -6,7 +6,7 @@ extends Node
 ## DEBUG ROOM SELECT: Set to a room filename (e.g. "f2_shaft") to boot directly there.
 ## Empty string = normal start from the beginning.
 ## Edit this line, save, redeploy — no other files needed.
-const DEBUG_START_ROOM := "tun_arena"
+const DEBUG_START_ROOM := ""
 
 var pending_spawn := ""
 var _fade: ColorRect
