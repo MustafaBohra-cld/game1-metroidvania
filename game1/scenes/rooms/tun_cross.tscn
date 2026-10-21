@@ -63,7 +63,7 @@ offset_left = -100.0
 offset_top = -100.0
 offset_right = 1380.0
 offset_bottom = 820.0
-color = Color(0.035, 0.022, 0.018, 1)
+color = Color(0.035, 0.022, 0.018, 0)
 
 [node name="BG_Rock_1" type="ColorRect" parent="TerrainVisual"]
 offset_left = 619.9
